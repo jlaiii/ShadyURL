@@ -92,9 +92,11 @@
       border-radius: 10px;
       word-break: break-all;
       font-family: monospace;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       color: #00ff88;
       display: none;
+      max-height: 180px;
+      overflow-y: auto;
     }
     .actions {
       display: flex;
@@ -120,41 +122,68 @@
       line-height: 1.5;
     }
     .warn a { color: var(--accent); }
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(2px, -2px); }
-      60% { transform: translate(-1px, 1px); }
-      80% { transform: translate(1px, -1px); }
-      100% { transform: translate(0); }
+    .meta {
+      display: flex;
+      gap: 1rem;
     }
-    .glitch { animation: glitch 0.3s infinite; }
+    .meta > div { flex: 1; }
   </style>
 </head>
 <body>
   <div class="logo">ShadyURL</div>
-  <div class="tagline">URL shortener for pranks. Your links, but make them sketchy.</div>
+  <div class="tagline">Make your links look sketchy as hell. Perfect for pranking friends.</div>
 
   <div class="card">
     <label for="url">Target URL</label>
     <input id="url" type="url" placeholder="https://youtube.com" autocomplete="off">
 
-    <label for="theme">Shady Theme</label>
-    <select id="theme">
-      <option value="">🎲 Random</option>
-      <option value="download-free-virus">download-free-virus</option>
-      <option value="creditcard-info-update">creditcard-info-update</option>
-      <option value="paypal-login-secure">paypal-login-secure</option>
-      <option value="free-robux-no-verify">free-robux-no-verify</option>
-      <option value="windows-activator-2026">windows-activator-2026</option>
-      <option value="darkweb-access-portal">darkweb-access-portal</option>
-      <option value="bank-transfer-pending">bank-transfer-pending</option>
-      <option value="your-computer-is-infected">your-computer-is-infected</option>
-      <option value="claim-free-giftcard-now">claim-free-giftcard-now</option>
-      <option value="crypto-wallet-recovery">crypto-wallet-recovery</option>
-      <option value="install-trojan-update">install-trojan-update</option>
-      <option value="login-admin-panel">login-admin-panel</option>
-    </select>
+    <div class="meta">
+      <div>
+        <label for="theme">Shady Theme</label>
+        <select id="theme">
+          <option value="">🎲 Random</option>
+          <option value="download-free-creditcard-generator">download-free-creditcard-generator</option>
+          <option value="verify-bank-account-now">verify-bank-account-now</option>
+          <option value="login-paypal-confirm-identity">login-paypal-confirm-identity</option>
+          <option value="install-trojan-hack-tool">install-trojan-hack-tool</option>
+          <option value="darkweb-market-access-key">darkweb-market-access-key</option>
+          <option value="claim-your-free-bitcoin">claim-your-free-bitcoin</option>
+          <option value="update-social-security-info">update-social-security-info</option>
+          <option value="activate-windows-crack">activate-windows-crack</option>
+          <option value="free-vbucks-generator-2026">free-vbucks-generator-2026</option>
+          <option value="steal-wifi-password-tool">steal-wifi-password-tool</option>
+          <option value="access-neighbor-camera-feed">access-neighbor-camera-feed</option>
+          <option value="download-illegal-movies-free">download-illegal-movies-free</option>
+          <option value="fake-id-generator-download">fake-id-generator-download</option>
+          <option value="hack-facebook-password">hack-facebook-password</option>
+          <option value="run-unknown-exe-file">run-unknown-exe-file</option>
+          <option value="enable-remote-desktop-backdoor">enable-remote-desktop-backdoor</option>
+          <option value="free-porn-passwords-list">free-porn-passwords-list</option>
+          <option value="claim-lottery-winnings-now">claim-lottery-winnings-now</option>
+          <option value="verify-irs-tax-refund">verify-irs-tax-refund</option>
+          <option value="unlock-stolen-iphone-free">unlock-stolen-iphone-free</option>
+          <option value="ransomware-decrypt-payment">ransomware-decrypt-payment</option>
+          <option value="stolen-passport-for-sale">stolen-passport-for-sale</option>
+          <option value="your-computer-is-infected-click-here">your-computer-is-infected-click-here</option>
+          <option value="confirm-suspicious-wire-transfer">confirm-suspicious-wire-transfer</option>
+          <option value="unlock-exclusive-adult-content">unlock-exclusive-adult-content</option>
+          <option value="download-nigerian-prince-documents">download-nigerian-prince-documents</option>
+          <option value="unclaimed-inheritance-download-form">unclaimed-inheritance-download-form</option>
+          <option value="free-iphone-16-scam-giveaway">free-iphone-16-scam-giveaway</option>
+          <option value="login-to-cancel-illegal-subscription">login-to-cancel-illegal-subscription</option>
+          <option value="confirm-package-from-unknown-sender">confirm-package-from-unknown-sender</option>
+          <option value="urgent-court-summons-pdf">urgent-court-summons-pdf</option>
+        </select>
+      </div>
+      <div>
+        <label for="length">Link Length</label>
+        <select id="length">
+          <option value="">🎲 Random</option>
+          <option value="mid">Mid</option>
+          <option value="long">Very Very Long</option>
+        </select>
+      </div>
+    </div>
 
     <button class="btn" id="genBtn">Generate Shady Link</button>
 
@@ -174,15 +203,44 @@
 
   <script>
     const shadyPaths = [
-      'download-free-virus','creditcard-info-update','paypal-login-secure',
-      'free-robux-no-verify','windows-activator-2026','darkweb-access-portal',
-      'bank-transfer-pending','your-computer-is-infected',
-      'claim-free-giftcard-now','crypto-wallet-recovery',
-      'install-trojan-update','login-admin-panel'
+      'download-free-creditcard-generator','verify-bank-account-now',
+      'login-paypal-confirm-identity','install-trojan-hack-tool',
+      'darkweb-market-access-key','claim-your-free-bitcoin',
+      'update-social-security-info','activate-windows-crack',
+      'free-vbucks-generator-2026','steal-wifi-password-tool',
+      'access-neighbor-camera-feed','download-illegal-movies-free',
+      'fake-id-generator-download','hack-facebook-password',
+      'run-unknown-exe-file','enable-remote-desktop-backdoor',
+      'free-porn-passwords-list','claim-lottery-winnings-now',
+      'verify-irs-tax-refund','unlock-stolen-iphone-free',
+      'ransomware-decrypt-payment','stolen-passport-for-sale',
+      'your-computer-is-infected-click-here',
+      'confirm-suspicious-wire-transfer',
+      'unlock-exclusive-adult-content',
+      'download-nigerian-prince-documents',
+      'unclaimed-inheritance-download-form',
+      'free-iphone-16-scam-giveaway',
+      'login-to-cancel-illegal-subscription',
+      'confirm-package-from-unknown-sender',
+      'urgent-court-summons-pdf'
+    ];
+
+    const midSegments = [
+      'confirm','verify','secure','auth','validate','process',
+      'step2','step3','final','redirect','external','session'
+    ];
+
+    const longSegments = [
+      'confirm-account-verification','secure-authentication-gateway',
+      'identity-validation-process','external-resource-redirect',
+      'session-token-validation','two-factor-bypass-module',
+      'encrypted-payload-delivery','remote-access-terminal',
+      'unauthorized-entry-point','suspicious-activity-detected'
     ];
 
     const urlIn = document.getElementById('url');
     const themeSel = document.getElementById('theme');
+    const lenSel = document.getElementById('length');
     const genBtn = document.getElementById('genBtn');
     const resultBox = document.getElementById('result');
     const actions = document.getElementById('actions');
@@ -196,18 +254,42 @@
       return p;
     }
 
+    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function makeMidPath(theme) {
+      const segs = [];
+      for (let i = 0; i < 4; i++) segs.push(rand(midSegments));
+      return theme + '/' + segs.join('/');
+    }
+
+    function makeLongPath(theme) {
+      const segs = [];
+      for (let i = 0; i < 6; i++) segs.push(rand(longSegments));
+      const junkId = Math.random().toString(36).substring(2, 14) + Math.random().toString(36).substring(2, 14);
+      const q = '?ref=' + junkId + '&track=pixels&utm=scam&utm_source=darkweb&utm_medium=phishing&utm_campaign=harvest&session=' + junkId + '&verify=true&auth=required&step=final&endpoint=external&redirect=enabled&payload=encrypted';
+      return theme + '/' + segs.join('/') + q;
+    }
+
     function generate() {
       let url = urlIn.value.trim();
       if (!url) { urlIn.focus(); return; }
       if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
-      let prefix = themeSel.value;
-      if (!prefix) {
-        prefix = shadyPaths[Math.floor(Math.random() * shadyPaths.length)];
+      let theme = themeSel.value;
+      if (!theme) theme = rand(shadyPaths);
+
+      let length = lenSel.value;
+      if (!length) length = ['mid','long'][Math.floor(Math.random() * 2)];
+
+      let path;
+      if (length === 'long') {
+        path = makeLongPath(theme);
+      } else {
+        path = makeMidPath(theme);
       }
 
       const b64 = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-      const shadyUrl = window.location.origin + getBasePath() + prefix + '/#' + b64;
+      const shadyUrl = window.location.origin + getBasePath() + path + '/#' + b64;
 
       resultBox.textContent = shadyUrl;
       resultBox.style.display = 'block';
