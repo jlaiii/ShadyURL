@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚠️ Security Alert</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --accent: #ff3333;
+      --accent2: #ff6600;
+      --text: #e0e0e0;
+      --muted: #888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .msg {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    .progress {
+      width: 280px;
+      height: 6px;
+      background: #222;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      animation: load 2.5s ease-out forwards;
+    }
+    @keyframes load { to { width: 100%; } }
+    .target {
+      font-size: 0.85rem;
+      color: var(--muted);
+      word-break: break-all;
+      max-width: 90vw;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="icon" id="icon">⚠️</div>
+  <h1 id="title">Scanning System...</h1>
+  <div class="msg" id="msg">
+    Potential threat detected. Initiating quarantine protocols.<br>
+    Redirecting to external target in <span id="sec">3</span> seconds.
+  </div>
+  <div class="progress"><div class="progress-bar"></div></div>
+  <div class="target hidden" id="target"></div>
+
+  <script>
+    (function() {
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        document.getElementById('title').textContent = '404 — Not Found';
+        document.getElementById('msg').textContent = 'This shady link is broken or expired.';
+        document.getElementById('icon').textContent = '❌';
+        document.querySelector('.progress').style.display = 'none';
+        return;
+      }
+
+      // URL-safe base64 decode
+      let b64 = hash.replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) b64 += '=';
+      let target;
+      try { target = atob(b64); } catch(e) {}
+
+      if (!target || !/^https?:\/\//i.test(target)) {
+        document.getElementById('title').textContent = 'Invalid Link';
+        document.getElementById('msg').textContent = 'Could not decode the destination URL.';
+        document.getElementById('icon').textContent = '❌';
+        document.querySelector('.progress').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('target').textContent = 'Destination: ' + target;
+      document.getElementById('target').classList.remove('hidden');
+
+      let sec = 3;
+      const secEl = document.getElementById('sec');
+      const timer = setInterval(() => {
+        sec--;
+        secEl.textContent = sec;
+        if (sec <= 0) {
+          clearInterval(timer);
+          window.location.replace(target);
+        }
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

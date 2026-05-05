@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShadyURL — Make Your Links Look Sketchy</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card: #111;
+      --accent: #ff3333;
+      --accent2: #ff6600;
+      --text: #e0e0e0;
+      --muted: #888;
+      --border: #222;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 560px;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+    .btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #0a0a0a;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: #00ff88;
+      display: none;
+    }
+    .actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+    .actions button {
+      flex: 1;
+      padding: 0.6rem;
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .actions button:hover { background: #222; }
+    .warn {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .warn a { color: var(--accent); }
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-1px, 1px); }
+      80% { transform: translate(1px, -1px); }
+      100% { transform: translate(0); }
+    }
+    .glitch { animation: glitch 0.3s infinite; }
+  </style>
+</head>
+<body>
+  <div class="logo">ShadyURL</div>
+  <div class="tagline">URL shortener for pranks. Your links, but make them sketchy.</div>
+
+  <div class="card">
+    <label for="url">Target URL</label>
+    <input id="url" type="url" placeholder="https://youtube.com" autocomplete="off">
+
+    <label for="theme">Shady Theme</label>
+    <select id="theme">
+      <option value="">🎲 Random</option>
+      <option value="download-free-virus">download-free-virus</option>
+      <option value="creditcard-info-update">creditcard-info-update</option>
+      <option value="paypal-login-secure">paypal-login-secure</option>
+      <option value="free-robux-no-verify">free-robux-no-verify</option>
+      <option value="windows-activator-2026">windows-activator-2026</option>
+      <option value="darkweb-access-portal">darkweb-access-portal</option>
+      <option value="bank-transfer-pending">bank-transfer-pending</option>
+      <option value="your-computer-is-infected">your-computer-is-infected</option>
+      <option value="claim-free-giftcard-now">claim-free-giftcard-now</option>
+      <option value="crypto-wallet-recovery">crypto-wallet-recovery</option>
+      <option value="install-trojan-update">install-trojan-update</option>
+      <option value="login-admin-panel">login-admin-panel</option>
+    </select>
+
+    <button class="btn" id="genBtn">Generate Shady Link</button>
+
+    <div class="result-box" id="result"></div>
+    <div class="actions" id="actions" style="display:none">
+      <button id="copyBtn">📋 Copy</button>
+      <button id="testBtn">🚀 Test</button>
+    </div>
+  </div>
+
+  <div class="warn">
+    This is a joke / prank tool. The generated links redirect to the URL you entered.<br>
+    No malware, no viruses, no actual harm — just funny URLs to mess with your friends.<br>
+    Made by <a href="https://github.com/jlaiii">jlaiii</a> ·
+    <a href="https://github.com/jlaiii/ShadyURL">Source</a>
+  </div>
+
+  <script>
+    const shadyPaths = [
+      'download-free-virus','creditcard-info-update','paypal-login-secure',
+      'free-robux-no-verify','windows-activator-2026','darkweb-access-portal',
+      'bank-transfer-pending','your-computer-is-infected',
+      'claim-free-giftcard-now','crypto-wallet-recovery',
+      'install-trojan-update','login-admin-panel'
+    ];
+
+    const urlIn = document.getElementById('url');
+    const themeSel = document.getElementById('theme');
+    const genBtn = document.getElementById('genBtn');
+    const resultBox = document.getElementById('result');
+    const actions = document.getElementById('actions');
+    const copyBtn = document.getElementById('copyBtn');
+    const testBtn = document.getElementById('testBtn');
+
+    function getBasePath() {
+      let p = window.location.pathname;
+      if (p.endsWith('index.html')) p = p.slice(0, -10);
+      if (!p.endsWith('/')) p += '/';
+      return p;
+    }
+
+    function generate() {
+      let url = urlIn.value.trim();
+      if (!url) { urlIn.focus(); return; }
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+      let prefix = themeSel.value;
+      if (!prefix) {
+        prefix = shadyPaths[Math.floor(Math.random() * shadyPaths.length)];
+      }
+
+      const b64 = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      const shadyUrl = window.location.origin + getBasePath() + prefix + '/#' + b64;
+
+      resultBox.textContent = shadyUrl;
+      resultBox.style.display = 'block';
+      actions.style.display = 'flex';
+    }
+
+    genBtn.addEventListener('click', generate);
+    urlIn.addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(resultBox.textContent).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = '📋 Copy', 1200);
+      });
+    });
+
+    testBtn.addEventListener('click', () => {
+      window.open(resultBox.textContent, '_blank');
+    });
+  </script>
+</body>
+</html>
