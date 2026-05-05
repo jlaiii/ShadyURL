@@ -179,8 +179,11 @@
         <label for="length">Link Length</label>
         <select id="length">
           <option value="">🎲 Random</option>
-          <option value="mid">Mid</option>
-          <option value="long">Very Very Long</option>
+          <option value="short">Short</option>
+          <option value="medium">Medium</option>
+          <option value="long">Long</option>
+          <option value="longer">Longer</option>
+          <option value="very-very-long">Very Very Long</option>
         </select>
       </div>
     </div>
@@ -256,18 +259,34 @@
 
     function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-    function makeMidPath(theme) {
+    function makeShortPath(theme) {
+      return theme + '/';
+    }
+
+    function makeMediumPath(theme) {
       const segs = [];
-      for (let i = 0; i < 4; i++) segs.push(rand(midSegments));
-      return theme + '/' + segs.join('/');
+      for (let i = 0; i < 2; i++) segs.push(rand(midSegments));
+      return theme + '/' + segs.join('/') + '/';
     }
 
     function makeLongPath(theme) {
       const segs = [];
+      for (let i = 0; i < 4; i++) segs.push(rand(midSegments));
+      return theme + '/' + segs.join('/') + '/';
+    }
+
+    function makeLongerPath(theme) {
+      const segs = [];
+      for (let i = 0; i < 6; i++) segs.push(rand(longSegments));
+      return theme + '/' + segs.join('/') + '/';
+    }
+
+    function makeVeryVeryLongPath(theme) {
+      const segs = [];
       for (let i = 0; i < 6; i++) segs.push(rand(longSegments));
       const junkId = Math.random().toString(36).substring(2, 14) + Math.random().toString(36).substring(2, 14);
       const q = '?ref=' + junkId + '&track=pixels&utm=scam&utm_source=darkweb&utm_medium=phishing&utm_campaign=harvest&session=' + junkId + '&verify=true&auth=required&step=final&endpoint=external&redirect=enabled&payload=encrypted';
-      return theme + '/' + segs.join('/') + q;
+      return theme + '/' + segs.join('/') + q + '/';
     }
 
     function generate() {
@@ -279,13 +298,16 @@
       if (!theme) theme = rand(shadyPaths);
 
       let length = lenSel.value;
-      if (!length) length = ['mid','long'][Math.floor(Math.random() * 2)];
+      if (!length) length = rand(['short','medium','long','longer','very-very-long']);
 
       let path;
-      if (length === 'long') {
-        path = makeLongPath(theme);
-      } else {
-        path = makeMidPath(theme);
+      switch (length) {
+        case 'short':       path = makeShortPath(theme);       break;
+        case 'medium':      path = makeMediumPath(theme);      break;
+        case 'long':        path = makeLongPath(theme);        break;
+        case 'longer':      path = makeLongerPath(theme);      break;
+        case 'very-very-long': path = makeVeryVeryLongPath(theme); break;
+        default:            path = makeMediumPath(theme);      break;
       }
 
       const b64 = btoa(url).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
