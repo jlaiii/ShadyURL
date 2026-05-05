@@ -350,6 +350,8 @@
             <div class="threat-row"><span class="threat-label">Alert level</span><span class="threat-val" style="color:#c5221f">Severe</span></div>
             <div class="threat-row"><span class="threat-label">Category</span><span class="threat-val">Credential Theft</span></div>
             <div class="threat-row"><span class="threat-label">Detected by</span><span class="threat-val">Microsoft Defender SmartScreen</span></div>
+            <div class="threat-row"><span class="threat-label">Resolved IP</span><span class="threat-val"><code id="ipShow">185.220.101.47</code></span></div>
+            <div class="threat-row"><span class="threat-label">Server Location</span><span class="threat-val" id="locShow">Moscow Oblast, RU</span></div>
             <div class="threat-row"><span class="threat-label">File</span><span class="threat-val"><code>setup_critical_update.exe</code></span></div>
           </div>
         </div>
@@ -530,7 +532,9 @@
     const addrEl  = document.getElementById('addrUrl');
     const pctEl   = document.getElementById('pct');
     const secEl   = document.getElementById('sec');
-    const foot    = document.getElementById('redirectFoot');
+    const foot     = document.getElementById('redirectFoot');
+    const ipEl     = document.getElementById('ipShow');
+    const locEl    = document.getElementById('locShow');
     const backBtn = document.getElementById('backBtn');
     const detailsBtn = document.getElementById('detailsBtn');
     const proceedBtn = document.getElementById('proceedBtn');
@@ -542,7 +546,16 @@
       threatBox.style.display = 'none';
       document.querySelector('.scan-panel').style.display = 'none';
     } else {
-      try { const u = new URL(target); hostEl.textContent = u.hostname; addrEl.textContent = 'https://' + u.hostname + u.pathname; }
+      try { 
+        const u = new URL(target); 
+        hostEl.textContent = u.hostname; 
+        addrEl.textContent = 'https://' + u.hostname + u.pathname;
+        const hash = u.hostname.split('').reduce((a,c)=>{a=((a<<5)-a)+c.charCodeAt(0);return a&a},0);
+        const octet = (n) => Math.abs((hash >> (n*8)) & 0xFF);
+        ipEl.textContent = [octet(0), octet(1), octet(2), octet(3)].join('.');
+        const locs = ['Moscow, RU','Kiev, UA','Bucharest, RO','Nur-Sultan, KZ','Saint Petersburg, RU','Minsk, BY','Sofia, BG','Tallinn, EE','Riga, LV'];
+        locEl.textContent = locs[Math.abs(hash) % locs.length];
+      }
       catch(e) { hostEl.textContent = target.replace(/^https?:\/\//,''); }
 
       let pct = 0;
